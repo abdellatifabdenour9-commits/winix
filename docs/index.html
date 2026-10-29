@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Winix | تطبيقات تطوير الذات</title>
+<meta name="description" content="Winix — شركة متخصصة في تصميم وتطوير تطبيقات تطوير الذات، من التصميم على Figma حتى الإطلاق.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+      --green-900: #0b3d2a;
+      --green-800: #0f5236;
+      --green-700: #137045;
+      --green-600: #16a34a;
+      --green-500: #22c55e;
+      --green-300: #86efac;
+      --green-100: #dcfce7;
+      --green-50:  #f0fdf4;
+      --ink: #0f1f17;
+      --muted: #4b5f55;
+      --line: #e3ece6;
+      --bg: #ffffff;
+      --surface: #ffffff;
+      --header-bg: rgba(255,255,255,.85);
+      --accent-ink: #137045;
+      --radius: 20px;
+      --shadow: 0 20px 50px -20px rgba(11, 61, 42, .25);
+    }
+    @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+      --green-50: #10241a; --green-100: #183829; --ink: #e4f1e9; --muted: #9bb8a7; --line: #22382c;
+      --bg: #0b1510; --surface: #101d16; --header-bg: rgba(11,21,16,.85); --accent-ink: #86efac; color-scheme: dark; } }
+    :root[data-theme="dark"] {
+      --green-50: #10241a; --green-100: #183829; --ink: #e4f1e9; --muted: #9bb8a7; --line: #22382c;
+      --bg: #0b1510; --surface: #101d16; --header-bg: rgba(11,21,16,.85); --accent-ink: #86efac; color-scheme: dark; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "IBM Plex Sans Arabic", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.7;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1180px, 100% - 32px); margin-inline: auto; }
+
+    /* Nav */
+    header {
+      position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+      background: var(--header-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.5rem; letter-spacing: .5px; }
+    .logo-mark {
+      width: 38px; height: 38px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--green-500), var(--green-800));
+      display: grid; place-items: center; color: #fff; font-size: 1.1rem; font-family: system-ui;
+    }
+    .nav-links { display: flex; gap: 32px; font-weight: 500; color: var(--muted); }
+    .nav-links a:hover { color: var(--accent-ink); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 999px; font-weight: 600; font-family: inherit;
+      border: none; cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s;
+    }
+    .btn-primary { background: var(--green-600); color: #fff; box-shadow: 0 10px 24px -10px var(--green-600); }
+    .btn-primary:hover { background: var(--green-700); transform: translateY(-2px); }
+    .btn-ghost { background: var(--green-50); color: var(--accent-ink); border: 1px solid var(--green-100); }
+    .btn-ghost:hover { background: var(--green-100); }
+    .menu-toggle { display: none; background: none; border: none; font-size: 1.6rem; cursor: pointer; color: var(--ink); }
+
+    /* Hero */
+    .hero {
+      position: relative; overflow: hidden;
+      background: radial-gradient(1200px 500px at 85% -10%, var(--green-100), transparent 60%),
+                  radial-gradient(800px 400px at 0% 100%, var(--green-50), transparent 60%);
+      padding: 90px 0 110px;
+    }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 60px; align-items: center; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--surface); border: 1px solid var(--green-100); color: var(--accent-ink);
+      padding: 6px 14px; border-radius: 999px; font-size: .9rem; font-weight: 500; margin-bottom: 22px;
+    }
+    .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-500); }
+    h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.25; font-weight: 700; margin-bottom: 20px; }
+    h1 span { color: var(--green-600); }
+    .lead { font-size: 1.15rem; color: var(--muted); max-width: 540px; margin-bottom: 34px; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-stats { display: flex; gap: 40px; margin-top: 48px; flex-wrap: wrap; }
+    .hero-stats strong { display: block; font-size: 1.8rem; color: var(--accent-ink); }
+    .hero-stats span { color: var(--muted); font-size: .95rem; }
+
+    /* Phone mockup */
+    .phone-wrap { position: relative; display: flex; justify-content: center; }
+    .phone {
+      width: 280px; height: 570px; border-radius: 44px; padding: 14px;
+      background: var(--green-900); box-shadow: var(--shadow), 0 0 0 2px #1d5a40 inset;
+      position: relative; z-index: 2;
+    }
+    .screen {
+      width: 100%; height: 100%; border-radius: 32px; overflow: hidden;
+      background: linear-gradient(180deg, var(--green-50), var(--surface));
+      padding: 26px 18px; display: flex; flex-direction: column; gap: 14px;
+    }
+    .screen .greet { font-size: .8rem; color: var(--muted); }
+    .screen .title { font-size: 1.15rem; font-weight: 700; }
+    .ring {
+      width: 130px; height: 130px; border-radius: 50%; margin: 6px auto;
+      background: conic-gradient(var(--green-500) 0 72%, var(--green-100) 72% 100%);
+      display: grid; place-items: center;
+    }
+    .ring div { width: 104px; height: 104px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; text-align: center; line-height: 1.3; }
+    .ring b { font-size: 1.5rem; color: var(--accent-ink); display: block; }
+    .ring small { font-size: .7rem; color: var(--muted); }
+    .habit {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+      padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; font-size: .82rem;
+    }
+    .habit i { font-style: normal; width: 22px; height: 22px; border-radius: 7px; display: grid; place-items: center; font-size: .7rem; }
+    .habit i.done { background: var(--green-500); color: #fff; }
+    .habit i.todo { border: 2px solid var(--green-300); }
+    .float-card {
+      position: absolute; z-index: 3; background: var(--surface); border-radius: 16px; padding: 12px 16px;
+      box-shadow: var(--shadow); font-size: .85rem; display: flex; align-items: center; gap: 10px;
+      animation: float 5s ease-in-out infinite;
+    }
+    .float-card .ic { width: 34px; height: 34px; border-radius: 10px; background: var(--green-100); display: grid; place-items: center; }
+    .fc-1 { top: 170px; right: -30px; }
+    .fc-2 { bottom: 80px; left: -10px; animation-delay: -2.5s; }
+    .blob { position: absolute; width: 360px; height: 360px; border-radius: 50%; background: var(--green-300); filter: blur(80px); opacity: .45; z-index: 1; }
+    @keyframes float { 50% { transform: translateY(-12px); } }
+
+    /* Sections */
+    section { padding: 100px 0; }
+    .sec-head { text-align: center; max-width: 640px; margin: 0 auto 56px; }
+    .eyebrow { color: var(--green-600); font-weight: 600; font-size: .95rem; margin-bottom: 10px; display: block; }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); line-height: 1.3; margin-bottom: 14px; }
+    .sec-head p { color: var(--muted); font-size: 1.05rem; }
+
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 32px;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: var(--green-100); }
+    .card .icon {
+      width: 56px; height: 56px; border-radius: 16px; background: var(--green-50); color: var(--accent-ink);
+      display: grid; place-items: center; margin-bottom: 20px;
+    }
+    .card h3 { font-size: 1.25rem; margin-bottom: 10px; }
+    .card p { color: var(--muted); }
+
+    /* Process */
+    .process { background: var(--green-900); color: #fff; border-radius: 40px; margin-inline: 16px; }
+    .process .sec-head p { color: #b7d8c6; }
+    .process .eyebrow { color: var(--green-300); }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; counter-reset: step; }
+    .step {
+      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius); padding: 28px; position: relative;
+    }
+    .step::before {
+      counter-increment: step; content: "0" counter(step);
+      font-size: 2.4rem; font-weight: 700; color: var(--green-500); display: block; margin-bottom: 10px; line-height: 1;
+    }
+    .step h3 { font-size: 1.15rem; margin-bottom: 8px; }
+    .step p { color: #b7d8c6; font-size: .95rem; }
+
+    /* Apps */
+    .apps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .app {
+      border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: var(--surface);
+      transition: transform .25s, box-shadow .25s;
+    }
+    .app:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .app-cover { height: 200px; display: grid; place-items: center; font-size: 4rem; }
+    .app:nth-child(1) .app-cover { background: linear-gradient(135deg, #dcfce7, #86efac); }
+    .app:nth-child(2) .app-cover { background: linear-gradient(135deg, #d1fae5, #6ee7b7); }
+    .app:nth-child(3) .app-cover { background: linear-gradient(135deg, #ecfccb, #bef264); }
+    .app-body { padding: 24px; }
+    .tag { display: inline-block; font-size: .8rem; background: var(--green-50); color: var(--accent-ink); padding: 3px 10px; border-radius: 999px; margin-bottom: 10px; }
+    .app-body h3 { margin-bottom: 6px; }
+    .app-body p { color: var(--muted); font-size: .95rem; }
+
+    /* Testimonials */
+    .testi { background: var(--green-50); }
+    .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .quote { background: var(--surface); padding: 30px; border-radius: var(--radius); border: 1px solid var(--line); }
+    .quote .stars { color: var(--green-500); letter-spacing: 2px; margin-bottom: 12px; }
+    .quote p { margin-bottom: 20px; }
+    .who { display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--green-600); color: #fff; display: grid; place-items: center; font-weight: 700; }
+    .who small { display: block; color: var(--muted); }
+
+    /* CTA / Contact */
+    .contact-box {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+      background: linear-gradient(135deg, var(--green-600), var(--green-800));
+      color: #fff; border-radius: 36px; padding: 60px;
+    }
+    .contact-box h2 { color: #fff; }
+    .contact-box p { color: #d6f5e1; }
+    form { background: var(--surface); border-radius: 24px; padding: 28px; display: grid; gap: 14px; color: var(--ink); }
+    input, textarea, select {
+      width: 100%; padding: 13px 16px; border-radius: 12px; border: 1px solid var(--line);
+      font-family: inherit; font-size: 1rem; background: var(--green-50); color: var(--ink);
+    }
+    input:focus, textarea:focus, select:focus { outline: 2px solid var(--green-500); border-color: transparent; }
+    textarea { resize: vertical; min-height: 110px; }
+    .form-msg { color: var(--accent-ink); font-weight: 600; display: none; }
+
+    footer { padding: 50px 0 30px; border-top: 1px solid var(--line); margin-top: 100px; }
+    .foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; color: var(--muted); }
+    .socials { display: flex; gap: 12px; }
+    .socials a { width: 40px; height: 40px; border-radius: 12px; background: var(--green-50); color: var(--accent-ink); display: grid; place-items: center; }
+    .socials a:hover { background: var(--green-600); color: #fff; }
+
+    @media (prefers-reduced-motion: reduce) { .float-card { animation: none; } * { transition: none !important; } html { scroll-behavior: auto; } }
+
+    @media (max-width: 960px) {
+      .hero-grid, .contact-box { grid-template-columns: 1fr; }
+      .cards, .apps, .quotes { grid-template-columns: 1fr 1fr; }
+      .steps { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column; position: absolute; top: 72px; inset-inline: 0;
+        background: var(--surface); padding: 20px 16px; border-bottom: 1px solid var(--line); gap: 16px;
+      }
+      .menu-toggle { display: block; }
+      .nav .btn { display: none; }
+    }
+    @media (max-width: 640px) {
+      .cards, .apps, .quotes, .steps { grid-template-columns: 1fr; }
+      section { padding: 70px 0; }
+      .hero { padding: 50px 0 80px; }
+      .contact-box { padding: 32px 20px; border-radius: 28px; }
+      .process { margin-inline: 0; border-radius: 28px; }
+      .fc-1 { right: 0; } .fc-2 { left: 0; }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+
+
+<header>
+  <div class="container nav">
+    <a href="#" class="logo"><span class="logo-mark">W</span>Winix</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#services">خدماتنا</a>
+      <a href="#process">طريقة العمل</a>
+      <a href="#apps">أعمالنا</a>
+      <a href="#testimonials">آراء العملاء</a>
+      <a href="#contact">تواصل معنا</a>
+    </nav>
+    <a href="#contact" class="btn btn-primary">ابدأ مشروعك</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="القائمة">☰</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="badge"><span class="dot"></span>تصميم على Figma • تطوير • إطلاق</span>
+      <h1>نصمّم تطبيقات <span>تطوير الذات</span> التي تغيّر حياة المستخدمين</h1>
+      <p class="lead">في Winix نحوّل فكرتك إلى تطبيق متكامل لبناء العادات، التأمل، الإنتاجية والتحفيز — نبدأ بتصميم دقيق على Figma وننتهي بتطبيق جاهز على المتاجر.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">احجز استشارة مجانية ←</a>
+        <a href="#apps" class="btn btn-ghost">شاهد أعمالنا</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>+40</strong><span>تطبيق مُطلق</span></div>
+        <div><strong>+500K</strong><span>مستخدم نشط</span></div>
+        <div><strong>4.8★</strong><span>متوسط التقييم</span></div>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div class="blob"></div>
+      <div class="phone">
+        <div class="screen">
+          <div>
+            <div class="greet">صباح الخير، سارة 👋</div>
+            <div class="title">تقدّمك اليوم</div>
+          </div>
+          <div class="ring"><div><span><b>72%</b><small>من أهدافك</small></span></div></div>
+          <div class="habit">🧘 تأمل 10 دقائق <i class="done">✓</i></div>
+          <div class="habit">📖 قراءة 20 صفحة <i class="done">✓</i></div>
+          <div class="habit">💧 شرب 8 أكواب ماء <i class="todo"></i></div>
+          <div class="habit">✍️ كتابة اليوميات <i class="todo"></i></div>
+        </div>
+      </div>
+      <div class="float-card fc-1"><span class="ic">🔥</span><div><b>21 يوماً</b><br><small>سلسلة متواصلة</small></div></div>
+      <div class="float-card fc-2"><span class="ic">🎯</span><div><b>هدف جديد</b><br><small>تم تحقيقه!</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">خدماتنا</span>
+      <h2>كل ما يحتاجه تطبيقك للنجاح</h2>
+      <p>فريق متكامل من المصممين والمطورين المتخصصين في تجارب المستخدم التي تبني عادات إيجابية.</p>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z"/><path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z"/><path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z"/><path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z"/><path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z"/></svg></div>
+        <h3>تصميم UI/UX على Figma</h3>
+        <p>واجهات جذابة ونماذج تفاعلية (Prototypes) ونظام تصميم متكامل قابل للتطوير.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M11 18h2"/></svg></div>
+        <h3>تطوير تطبيقات الجوال</h3>
+        <p>تطبيقات iOS و Android سريعة وسلسة باستخدام Flutter بأداء قريب من التطبيقات الأصلية.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg></div>
+        <h3>علم النفس السلوكي</h3>
+        <p>نُدمج مبادئ تكوين العادات والتحفيز والتلعيب (Gamification) لرفع التفاعل والاحتفاظ بالمستخدمين.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div>
+        <h3>تحليلات ونمو</h3>
+        <p>لوحات قياس، تجارب A/B، وتحسين مستمر لمعدلات الاشتراك والاحتفاظ.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h3>إشعارات وتذكيرات ذكية</h3>
+        <p>تذكيرات مخصّصة في الوقت المناسب تساعد المستخدم على الالتزام دون إزعاج.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5 2 7.5L12 16.5 5.5 21l2-7.5L2 9h7z"/></svg></div>
+        <h3>الإطلاق والدعم</h3>
+        <p>نشر التطبيق على App Store و Google Play مع صيانة ودعم فني مستمر بعد الإطلاق.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process" class="process">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">طريقة العمل</span>
+      <h2>من الفكرة إلى المتجر في 4 خطوات</h2>
+      <p>عملية واضحة وشفافة تبدأ دائماً بالتصميم على Figma لتشاهد تطبيقك قبل كتابة أي سطر برمجي.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><h3>الاكتشاف</h3><p>نفهم جمهورك وأهدافك ونحدد الميزات الأساسية للتطبيق.</p></div>
+      <div class="step reveal"><h3>التصميم على Figma</h3><p>نصمم الواجهات والنموذج التفاعلي وتراجعه معنا مباشرة على Figma.</p></div>
+      <div class="step reveal"><h3>التطوير</h3><p>نحوّل التصميم إلى تطبيق حقيقي مع اختبارات دقيقة في كل مرحلة.</p></div>
+      <div class="step reveal"><h3>الإطلاق والنمو</h3><p>ننشر التطبيق ونتابع الأداء ونطوّره بناءً على بيانات المستخدمين.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="apps">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">أعمالنا</span>
+      <h2>تطبيقات صنعناها بشغف</h2>
+      <p>نماذج من التطبيقات التي ساعدت آلاف المستخدمين على أن يصبحوا نسخة أفضل من أنفسهم.</p>
+    </div>
+    <div class="apps">
+      <div class="app reveal">
+        <div class="app-cover">🌱</div>
+        <div class="app-body"><span class="tag">بناء العادات</span><h3>Grow</h3><p>تتبّع العادات اليومية بسلاسل تحفيزية وتقارير أسبوعية.</p></div>
+      </div>
+      <div class="app reveal">
+        <div class="app-cover">🧘</div>
+        <div class="app-body"><span class="tag">التأمل والهدوء</span><h3>Sakina</h3><p>جلسات تأمل وتنفس موجّهة باللغة العربية لتقليل التوتر.</p></div>
+      </div>
+      <div class="app reveal">
+        <div class="app-cover">🎯</div>
+        <div class="app-body"><span class="tag">الإنتاجية</span><h3>Focus+</h3><p>تخطيط الأهداف وتقنية بومودورو مع مكافآت وإنجازات.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials" class="testi">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">آراء العملاء</span>
+      <h2>ماذا يقول شركاؤنا</h2>
+    </div>
+    <div class="quotes">
+      <div class="quote reveal"><div class="stars">★★★★★</div><p>“تصميم Figma كان مذهلاً وساعدنا على إقناع المستثمرين قبل بدء التطوير.”</p><div class="who"><span class="avatar">أ</span><div><b>أحمد</b><small>مؤسس تطبيق عادات</small></div></div></div>
+      <div class="quote reveal"><div class="stars">★★★★★</div><p>“فريق محترف يفهم نفسية المستخدم، ونسبة الاحتفاظ تضاعفت بعد الإطلاق.”</p><div class="who"><span class="avatar">ل</span><div><b>ليلى</b><small>مديرة منتج</small></div></div></div>
+      <div class="quote reveal"><div class="stars">★★★★★</div><p>“التزام بالمواعيد وتواصل ممتاز في كل مرحلة. أنصح بهم بشدة.”</p><div class="who"><span class="avatar">ي</span><div><b>يوسف</b><small>مدرب حياة</small></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="contact-box reveal">
+      <div>
+        <h2>جاهز لإطلاق تطبيقك القادم؟</h2>
+        <p>أخبرنا عن فكرتك وسنعود إليك خلال 24 ساعة بخطة أولية وتصور مبدئي على Figma.</p>
+      </div>
+      <form id="contactForm">
+        <input type="text" placeholder="الاسم الكامل" required>
+        <input type="email" placeholder="البريد الإلكتروني" required>
+        <select required>
+          <option value="">نوع التطبيق</option>
+          <option>بناء العادات</option>
+          <option>التأمل والصحة النفسية</option>
+          <option>الإنتاجية والأهداف</option>
+          <option>أخرى</option>
+        </select>
+        <textarea placeholder="حدّثنا عن فكرتك..."></textarea>
+        <button class="btn btn-primary" type="submit">أرسل الطلب</button>
+        <p class="form-msg" id="formMsg">✓ شكراً لك! سنتواصل معك قريباً.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot">
+    <a href="#" class="logo"><span class="logo-mark">W</span>Winix</a>
+    <span>© 2026 Winix. جميع الحقوق محفوظة.</span>
+    <div class="socials">
+      <a href="#" aria-label="Instagram">IG</a>
+      <a href="#" aria-label="LinkedIn">in</a>
+      <a href="#" aria-label="Behance">Bē</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+  document.querySelectorAll('#navLinks a').forEach(a =>
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
+
+
+  document.getElementById('contactForm').addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('formMsg').style.display = 'block';
+    e.target.reset();
+  });
+</script>
+</div>
+
+</body>
+</html>
